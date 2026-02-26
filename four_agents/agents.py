@@ -2,7 +2,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig
 import time
 
-from сonfig import architect_config, coder_config, reviewer_config, deployer_config, model_name, hf_token
+from four_agents.сonfig import architect_config, coder_config, reviewer_config, deployer_config, model_name, hf_token
 
 
 # ---------- БАЗОВИЙ АГЕНТ ----------

@@ -1,4 +1,4 @@
-from agents import ArchitectAgent, CoderAgent, ReviewerAgent, DeployerAgent
+from .agents import ArchitectAgent, CoderAgent, ReviewerAgent, DeployerAgent
 import time
 
 

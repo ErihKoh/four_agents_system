@@ -1,5 +1,10 @@
-from orchestrator import Orchestrator
+from .orchestrator import Orchestrator
+import sys
+import os
 import torch
+
+# Додаємо корінь проєкту у sys.path
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 
 def check_device():
@@ -16,4 +21,3 @@ if __name__ == "__main__":
     orchestrator = Orchestrator()
     result = orchestrator.build(task)
     print("[Main] Всі агенти завершили роботу")
-
