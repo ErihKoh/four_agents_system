@@ -23,8 +23,6 @@ class BaseAgent:
         # Токенізатор
         self.tokenizer = AutoTokenizer.from_pretrained(
             model_name,
-            token=hf_token,
-            trust_remote_code=True
         )
 
         # Модель
@@ -33,7 +31,6 @@ class BaseAgent:
             device_map="auto" if self.device == "mps" else None,
             torch_dtype="auto",  # автоматично обирає float16/float32
             token=hf_token,
-            trust_remote_code=True
         )
         self.model.eval()
 
