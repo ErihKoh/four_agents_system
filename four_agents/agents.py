@@ -2,8 +2,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig
 import time
 
-from four_agents.сonfig import architect_config, coder_config, reviewer_config, deployer_config, hf_token, \
-    thinking_model_name, tool_model_name
+from four_agents.сonfig import architect_config, coder_config, reviewer_config, deployer_config, hf_token, thinking_model_name, tool_model_name
 
 
 # ---------- БАЗОВИЙ АГЕНТ ----------
@@ -77,7 +76,7 @@ class CoderAgent(BaseAgent):
             "Coder",
             "You are a Python developer. Write clean production-ready Python code. Return ONLY code.",
             coder_config,
-            toolmind_model_name
+            tool_model_name
         )
 
 
@@ -85,7 +84,8 @@ class ReviewerAgent(BaseAgent):
     def __init__(self):
         super().__init__(
             "Reviewer",
-            "You are a strict senior code reviewer. Find bugs and bad practices. Return: STATUS: approved/rejected\nFIXED_CODE:\n<code>",
+            "You are a strict senior code reviewer. Find bugs and bad practices. Return: STATUS: "
+            "approved/rejected\nFIXED_CODE:\n<code>",
             reviewer_config,
             thinking_model_name
         )
@@ -97,5 +97,5 @@ class DeployerAgent(BaseAgent):
             "Deployer",
             "You are a DevOps engineer. Create requirements.txt, Dockerfile and run instructions.",
             deployer_config,
-            toolmind_model_name
+            tool_model_name
         )
