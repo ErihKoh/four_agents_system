@@ -5,7 +5,8 @@ import os
 load_dotenv()
 hf_token = os.getenv("access_token_hf")
 
-model_name = "meta-llama/Llama-3.2-1B-Instruct"
+thinking_model_name = "Nanbeige/Nanbeige4-3B-Thinking"
+tool_model_name = "Nanbeige/ToolMind-Web-3B"
 
 # ---------- КОНФІГУРАЦІЇ ГЕНЕРАЦІЇ ----------
 
