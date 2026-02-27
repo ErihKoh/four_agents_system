@@ -2,7 +2,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig
 import time
 
-from four_agents.сonfig import architect_config, coder_config, reviewer_config, deployer_config, hf_token, thinking_model_name, tool_model_name
+from four_agents.сonfig import architect_config, coder_config, reviewer_config, deployer_config, hf_token, thinking_model_name
 
 
 # ---------- БАЗОВИЙ АГЕНТ ----------
@@ -15,22 +15,25 @@ class BaseAgent:
         # Визначення пристрою
         if torch.backends.mps.is_available() and torch.backends.mps.is_built():
             self.device = "mps"
-        elif torch.cuda.is_available():
-            self.device = "cuda"
         else:
             self.device = "cpu"
 
         print(f"[{self.name}] Device: {self.device}")
 
         # Токенізатор
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name, use_auth_token=hf_token)
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            model_name,
+            token=hf_token,
+            trust_remote_code=True
+        )
 
         # Модель
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name,
-            torch_dtype=torch.float16 if self.device in ["mps", "cuda"] else torch.float32,
-            device_map="auto" if self.device in ["mps", "cuda"] else None,
-            use_auth_token=hf_token
+            device_map="auto" if self.device == "mps" else None,
+            torch_dtype="auto",  # автоматично обирає float16/float32
+            token=hf_token,
+            trust_remote_code=True
         )
         self.model.eval()
 
@@ -76,7 +79,7 @@ class CoderAgent(BaseAgent):
             "Coder",
             "You are a Python developer. Write clean production-ready Python code. Return ONLY code.",
             coder_config,
-            tool_model_name
+            thinking_model_name
         )
 
 
@@ -97,5 +100,5 @@ class DeployerAgent(BaseAgent):
             "Deployer",
             "You are a DevOps engineer. Create requirements.txt, Dockerfile and run instructions.",
             deployer_config,
-            tool_model_name
+            thinking_model_name
         )
